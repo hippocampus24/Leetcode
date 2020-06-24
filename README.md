@@ -1,6 +1,11 @@
-# Leetcode Note
+# 思维导图
 
 <div align="center"><img width="530px" src="https://github.com/hippocampus24/Leetcode/blob/master/pictures/LeetCode.png"></img></div>
+
+## 参考资料
+-《图解算法》
+-《剑指offer》
+- 慕课网《数据结构》
 
 ## 数据结构相关
 
