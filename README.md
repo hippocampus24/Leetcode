@@ -1,6 +1,6 @@
 # Leetcode Note
 
-<div align="center"><img width="960px" src="https://github.com/hippocampus24/Leetcode/blob/master/pictures/LeetCode.png"></img></div>
+<div align="center"><img width="530px" src="https://github.com/hippocampus24/Leetcode/blob/master/pictures/LeetCode.png"></img></div>
 
 ## 数据结构相关
 
