@@ -30,10 +30,11 @@
 说明:
 
 必须在原数组上操作，不能拷贝额外的数组。
-尽量减少操作次数。```
+尽量减少操作次数。
+```
 
 ```html
-讲解：Youtube(https://www.youtube.com/watch?v=3gPn77w8ezw)  
+讲解：[Youtube](https://www.youtube.com/watch?v=3gPn77w8ezw)
 ```
 
 ```python
@@ -78,7 +79,7 @@ The row-traversing of nums is [1,2,3,4]. The new reshaped matrix is a 1 * 4 matr
 ```
 
 ```html
-讲解：Youtube(https://www.youtube.com/watch?v=3gPn77w8ezw)  
+讲解：[Youtube](https://www.youtube.com/watch?v=3gPn77w8ezw)  
 ```
 
 ```python
