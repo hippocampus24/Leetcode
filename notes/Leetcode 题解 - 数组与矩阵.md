@@ -18,7 +18,7 @@
 
 283\. Move Zeroes (Easy)
 
-[Leetcode](https://leetcode.com/problems/move-zeroes/description/) / [力扣](https://leetcode-cn.com/problems/move-zeroes/description/)
+[力扣](https://leetcode-cn.com/problems/move-zeroes/description/)
 
 ```html
 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
@@ -62,7 +62,7 @@ class Solution(object):
 
 566\. Reshape the Matrix (Easy)
 
-[Leetcode](https://leetcode.com/problems/reshape-the-matrix/description/) / [力扣](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
+[力扣](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
 
 ```html
 Input:
@@ -96,13 +96,13 @@ class Solution:
 
 485\. Max Consecutive Ones (Easy)
 
-[Leetcode](https://leetcode.com/problems/max-consecutive-ones/description/) / [力扣](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
+[力扣](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
 
 ```html
 讲解：https://www.youtube.com/watch?v=Ou7y2YZEQxg
 ```
 
-```python`
+```python
 class Solution:
     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
         count = 0
@@ -123,7 +123,7 @@ class Solution:
 
 240\. Search a 2D Matrix II (Medium)
 
-[Leetcode](https://leetcode.com/problems/search-a-2d-matrix-ii/description/) / [力扣](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/description/)
+[力扣](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/description/)
 
 ```html
 [
@@ -133,18 +133,58 @@ class Solution:
 ]
 ```
 
-```html  
-讲解：  
-```     
+讲解：[Youtube](https://www.youtube.com/watch?v=g4Qy83toSzc)
+    
 
 ```python
+class Solution:
+    def binary_search(self, matrix, target, start, vertical):
+        lo = start
+        hi = len(matrix[0])-1 if vertical else len(matrix)-1
+class Solution:
+    def binary_search(self,matrix,target,start,vertical):
+        lo = start
+        hi = len(matrix[0])-1 if vertical else len(matrix)-1
+
+        while hi >= lo:
+            mid = (lo + hi)//2
+            if vertical: # searching a column
+                if matrix[start][mid] < target:
+                    lo = mid + 1
+                elif matrix[start][mid] > target:
+                    hi = mid - 1
+                else:
+                    return True
+            else: # searching a row
+                if matrix[mid][start] < target:
+                    lo = mid + 1
+                elif matrix[mid][start] > target:
+                    hi = mid - 1
+                else:
+                    return True
+        
+        return False
+
+    def searchMatrix(self, matrix, target):
+        # an empty matrix obviously does not contain `target`
+        if not matrix:
+            return False
+
+        # iterate over matrix diagonals starting in bottom left.
+        for i in range(min(len(matrix), len(matrix[0]))):
+            vertical_found = self.binary_search(matrix, target, i, True)
+            horizontal_found = self.binary_search(matrix, target, i, False)
+            if vertical_found or horizontal_found:
+                return True
+        
+        return False
 ```
 
 # 5. 有序矩阵的 Kth Element
 
 378\. Kth Smallest Element in a Sorted Matrix ((Medium))
 
-[Leetcode](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/) / [力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
+[力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
 
 ```html
 matrix = [
@@ -157,95 +197,79 @@ k = 8,
 return 13.
 ```
 
-解题参考：[Share my thoughts and Clean Java Code](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173)
-
-二分查找解法：
-
-```html  
-讲解：  
-```     
-
-```python
-```
-
-堆解法：
-
-```html  
-讲解：  
-```     
-
-```python
+```python  
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        q = []
+        for mat in matrix:
+            for i in mat:
+                bisect.insort(q, i)
+        return q[k - 1]
 ```
 
 # 6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数
 
 645\. Set Mismatch (Easy)
 
-[Leetcode](https://leetcode.com/problems/set-mismatch/description/) / [力扣](https://leetcode-cn.com/problems/set-mismatch/description/)
+[力扣](https://leetcode-cn.com/problems/set-mismatch/description/)
 
 ```html
 Input: nums = [1,2,2,4]
 Output: [2,3]
 ```
-
-```html  
-讲解：  
-```     
-
-最直接的方法是先对数组进行排序，这种方法时间复杂度为 O(NlogN)。本题可以以 O(N) 的时间复杂度、O(1) 空间复杂度来求解。
-
-主要思想是通过交换数组元素，使得数组上的元素在正确的位置上。
+讲解：[Youtube]
 
 ```python
+
 ```
 
 # 7. 找出数组中重复的数，数组值在 [1, n] 之间
 
 287\. Find the Duplicate Number (Medium)
 
-[Leetcode](https://leetcode.com/problems/find-the-duplicate-number/description/) / [力扣](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
+[力扣](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
 
 要求不能修改数组，也不能使用额外的空间。
 
 二分查找解法：
 
-```html  
 讲解：  
-```     
+  
 
 ```python
-```
 
-双指针解法，类似于有环链表中找出环的入口：
 
-```html  
-讲解：  
-```     
-
-```python
 ```
 
 # 8. 数组相邻差值的个数
 
 667\. Beautiful Arrangement II (Medium)
 
-[Leetcode](https://leetcode.com/problems/beautiful-arrangement-ii/description/) / [力扣](https://leetcode-cn.com/problems/beautiful-arrangement-ii/description/)
+[力扣](https://leetcode-cn.com/problems/beautiful-arrangement-ii/description/)
 
 ```html
-Input: n = 3, k = 2
-Output: [1, 3, 2]
-Explanation: The [1, 3, 2] has three different positive integers ranging from 1 to 3, and the [2, 1] has exactly 2 distinct integers: 1 and 2.
+给定两个整数 n 和 k，你需要实现一个数组，这个数组包含从 1 到 n 的 n 个不同整数，同时满足以下条件：
+① 如果这个数组是 [a1, a2, a3, ... , an] ，那么数组 [|a1 - a2|, |a2 - a3|, |a3 - a4|, ... , |an-1 - an|] 中应该有且仅有 k 个不同整数；.
+② 如果存在多种答案，你只需实现并返回其中任意一种.
+
+数组元素为 1\~n 的整数，要求构建数组，使得相邻元素的差值不相同的个数为 k。
+让前 k+1 个元素构建出 k 个不相同的差值，序列为：1 k+1 2 k 3 k-1 ... k/2 k/2+1.
 ```
 
-题目描述：数组元素为 1\~n 的整数，要求构建数组，使得相邻元素的差值不相同的个数为 k。
-
-让前 k+1 个元素构建出 k 个不相同的差值，序列为：1 k+1 2 k 3 k-1 ... k/2 k/2+1.
-
-```html  
-讲解：  
-```     
+讲解：[Youtube](https://www.youtube.com/watch?v=WLFXfcUVeeU)
 
 ```python
+class Solution:
+    def constructArray(self, n: int, k: int) -> List[int]:
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[int]
+        """
+        res = list(range(1, n + 1))  # 刚开始有一个不同的差绝对值
+        for i in range(1, k):  # 每翻转后面一次产生一个新的
+            res[i:] = res[:i-1:-1]  # 翻转
+        return res
 ```
 
 # 9. 数组的度
