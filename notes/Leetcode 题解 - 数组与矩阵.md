@@ -276,7 +276,7 @@ class Solution:
 
 697\. Degree of an Array (Easy)
 
-[Leetcode](https://leetcode.com/problems/degree-of-an-array/description/) / [力扣](https://leetcode-cn.com/problems/degree-of-an-array/description/)
+[力扣](https://leetcode-cn.com/problems/degree-of-an-array/description/)
 
 ```html
 Input: [1,2,2,3,1,4,2]
@@ -285,39 +285,88 @@ Output: 6
 
 题目描述：数组的度定义为元素出现的最高频率，例如上面的数组度为 3。要求找到一个最小的子数组，这个子数组的度和原数组一样。
 
-```html  
-讲解：  
-```     
+讲解：[Youtube](https://www.bilibili.com/video/BV1G4411S7hQ?from=search&seid=17197294950463230351)    
 
 ```python
+class Solution(object):
+    def findShortestSubArray(self, nums):
+        left, right, count = {}, {}, {}
+        for i, x in enumerate(nums):
+            if x not in left: left[x] = i
+            right[x] = i
+            count[x] = count.get(x, 0) + 1
+
+        ans = len(nums)
+        degree = max(count.values())
+        for x in count:
+            if count[x] == degree:
+                ans = min(ans, right[x] - left[x] + 1)
+
+        return ans
 ```
 
 # 10. 对角元素相等的矩阵
 
 766\. Toeplitz Matrix (Easy)
 
-[Leetcode](https://leetcode.com/problems/toeplitz-matrix/description/) / [力扣](https://leetcode-cn.com/problems/toeplitz-matrix/description/)
+[力扣](https://leetcode-cn.com/problems/toeplitz-matrix/description/)
 
 ```html
-1234
-5123
-9512
+如果一个矩阵的每一方向由左上到右下的对角线上具有相同元素，那么这个矩阵是托普利茨矩阵。
 
-In the above grid, the diagonals are "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]", and in each diagonal all elements are the same, so the answer is True.
+给定一个 M x N 的矩阵，当且仅当它是托普利茨矩阵时返回 True。
+
+示例 1:
+输入: 
+matrix = [
+  [1,2,3,4],
+  [5,1,2,3],
+  [9,5,1,2]
+]
+输出: True
+解释:
+在上述矩阵中, 其对角线为:
+"[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]"。
+各条对角线上的所有元素均相同, 因此答案是True。
+
+示例 2:
+输入:
+matrix = [
+  [1,2],
+  [2,2]
+]
+输出: False
+解释: 
+对角线"[1, 2]"上的元素不同。
+
+说明:
+1.matrix 是一个包含整数的二维数组。
+2.matrix 的行数和列数均在 [1, 20]范围内。
+3.matrix[i][j] 包含的整数在 [0, 99]范围内。
+进阶:
+1.如果矩阵存储在磁盘上，并且磁盘内存是有限的，因此一次最多只能将一行矩阵加载到内存中，该怎么办？
+2.如果矩阵太大以至于只能一次将部分行加载到内存中，该怎么办？
 ```
 
-```html  
-讲解：  
-```     
+讲解：[Youtube](https://www.youtube.com/watch?v=YZVfCfZrDx8)    
 
 ```python
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        n=len(matrix)
+        n1=len(matrix[0])
+        for i in range(n-1):
+            for j in range(n1-1):
+                if matrix[i][j]!=matrix[i+1][j+1]:
+                    return 0
+        return 1
 ```
 
 # 11. 嵌套数组
 
 565\. Array Nesting (Medium)
 
-[Leetcode](https://leetcode.com/problems/array-nesting/description/) / [力扣](https://leetcode-cn.com/problems/array-nesting/description/)
+[力扣](https://leetcode-cn.com/problems/array-nesting/description/)
 
 ```html
 Input: A = [5,4,0,3,1,6,2]
@@ -331,18 +380,18 @@ S[0] = {A[0], A[5], A[6], A[2]} = {5, 6, 2, 0}
 
 题目描述：S[i] 表示一个集合，集合的第一个元素是 A[i]，第二个元素是 A[A[i]]，如此嵌套下去。求最大的 S[i]。
 
-```html  
-讲解：  
-```     
+讲解：   
 
 ```python
+
+
 ```
 
 # 12. 分隔数组
 
 769\. Max Chunks To Make Sorted (Medium)
 
-[Leetcode](https://leetcode.com/problems/max-chunks-to-make-sorted/description/) / [力扣](https://leetcode-cn.com/problems/max-chunks-to-make-sorted/description/)
+[力扣](https://leetcode-cn.com/problems/max-chunks-to-make-sorted/description/)
 
 ```html
 Input: arr = [1,0,2,3,4]
@@ -354,9 +403,14 @@ However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks po
 
 题目描述：分隔数组，使得对每部分排序后数组就为有序。
 
-```html  
-讲解：  
-```     
+讲解：[Youtube](https://www.youtube.com/watch?v=twYLu4hEKnQ)    
 
 ```python
+class Solution(object):
+    def maxChunksToSorted(self, arr):
+        ans = ma = 0
+        for i, x in enumerate(arr):
+            ma = max(ma, x)
+            if ma == i: ans += 1
+        return ans       
 ```
