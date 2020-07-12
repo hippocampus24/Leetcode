@@ -52,7 +52,7 @@ Return "student a am I"
 
 242\. Valid Anagram (Easy)
 
-[Leetcode](https://leetcode.com/problems/valid-anagram/description/) / [力扣](https://leetcode-cn.com/problems/valid-anagram/description/)
+[力扣](https://leetcode-cn.com/problems/valid-anagram/description/)
 
 ```html
 s = "anagram", t = "nagaram", return true.
@@ -70,7 +70,7 @@ s = "rat", t = "car", return false.
 
 409\. Longest Palindrome (Easy)
 
-[Leetcode](https://leetcode.com/problems/longest-palindrome/description/) / [力扣](https://leetcode-cn.com/problems/longest-palindrome/description/)
+[力扣](https://leetcode-cn.com/problems/longest-palindrome/description/)
 
 ```html
 Input : "abccccdd"
@@ -89,7 +89,7 @@ Explanation : One longest palindrome that can be built is "dccaccd", whose lengt
 
 205\. Isomorphic Strings (Easy)
 
-[Leetcode](https://leetcode.com/problems/isomorphic-strings/description/) / [力扣](https://leetcode-cn.com/problems/isomorphic-strings/description/)
+[力扣](https://leetcode-cn.com/problems/isomorphic-strings/description/)
 
 ```html
 Given "egg", "add", return true.
@@ -106,7 +106,7 @@ Given "paper", "title", return true.
 
 647\. Palindromic Substrings (Medium)
 
-[Leetcode](https://leetcode.com/problems/palindromic-substrings/description/) / [力扣](https://leetcode-cn.com/problems/palindromic-substrings/description/)
+[力扣](https://leetcode-cn.com/problems/palindromic-substrings/description/)
 
 ```html
 Input: "aaa"
@@ -146,10 +146,3 @@ Explanation: There are 6 substrings that have equal number of consecutive 1's an
 
 ```python
 ```
-
-
-
-
-
-
-<div align="center"><img width="320px" src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/githubio/公众号二维码-2.png"></img></div>
