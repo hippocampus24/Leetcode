@@ -59,11 +59,10 @@ s = "anagram", t = "nagaram", return true.
 s = "rat", t = "car", return false.
 ```
 
-可以用 HashMap 来映射字符与出现次数，然后比较两个字符串出现的字符数量是否相同。
+讲解：[Youtube](https://www.youtube.com/watch?v=1ns7UFp1o54)
 
-由于本题的字符串只包含 26 个小写字符，因此可以使用长度为 26 的整型数组对字符串出现的字符进行统计，不再使用 HashMap。
+```python  
 
-```python
 ```
 
 # 5. 计算一组字符集合可以组成的回文字符串的最大长度
@@ -81,6 +80,8 @@ Explanation : One longest palindrome that can be built is "dccaccd", whose lengt
 使用长度为 256 的整型数组来统计每个字符出现的个数，每个字符有偶数个可以用来构成回文字符串。
 
 因为回文字符串最中间的那个字符可以单独出现，所以如果有单独的字符就把它放到最中间。
+
+讲解：[Youtube]
 
 ```python
 ```
