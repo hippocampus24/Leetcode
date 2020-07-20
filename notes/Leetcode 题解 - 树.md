@@ -48,7 +48,19 @@
 
 [力扣](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
 
-```python
+```python  
+class Solution:
+    def maxDepth(self, root:TreeNode) -> int:
+        """
+        :type root:TreeNode
+        :rtype: int
+        """
+        if root is None:
+            return 0
+        else:
+            left_height = self.maxDepth(root.left)
+            right_height = self.maxDepth(root.right)
+            return max(left_height, right_height) + 1  
 ```
 
 ## 2. 平衡树
@@ -67,7 +79,16 @@
 
 平衡树左右子树高度差都小于等于 1
 
-```python
+```python  
+class Solution:
+    def isBalanced(self, root:TreeNode) -> bool:
+        if not root: return True
+        return abs(self.depth(root.left) - self.depth(root.right)) <= 1 and \
+            self.isBalanced(root.left) and self.isBalanced(root.right)
+    
+    def depth(self, root):
+        if not root:return 0
+        return max(self.depth(root.left),self.depth(root.right)) + 1  
 ```
 
 ## 3. 两节点的最长路径
@@ -88,7 +109,18 @@ Input:
 Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
 ```
 
-```python
+```python  
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.ans = 1 
+        def depth(root):
+            if not root:return 0
+            L = depth(root.left)
+            R = depth(root.right)
+            self.ans = max(self.ans, L + R + 1)
+            return max(L,R) + 1
+        depth(root)
+        return self.ans - 1  
 ```
 
 ## 4. 翻转树
@@ -99,8 +131,12 @@ Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
 
 讲解：[Youtube](https://www.youtube.com/watch?v=_Bx_IeZrEKg)
 
-```python
-
+```python    
+class Solution:
+    def invertTree(self,root:TreeNode) -> TreeNode:
+        if root is not None:
+            root.left,root.right = self.invertTree(root.right),self.invertTree(root.left)
+        return root
 ```
 
 ## 5. 归并两棵树
@@ -126,7 +162,15 @@ Output:
      5   4   7
 ```
 
-```python
+```python   
+class Solution:
+    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        if not (t1 and t2):
+            return t1 if t1 else t2
+        t1.val += t2.val
+        t1.left = self.mergeTrees(t1.left, t2.left)
+        t1.right = self.mergeTrees(t1.right,t2.right)
+        return t1
 ```
 
 ## 6. 判断路径和是否等于一个数
@@ -152,6 +196,14 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 路径和定义为从 root 到 leaf 的所有节点的和。
 
 ```python
+class Solution:
+    def hasPathSum(self,root:TreeNode, sum:int) -> bool:
+        if not root: return False
+        if not root.left and not root.right:
+            return root.val == sum
+        
+        sum -= root.val
+        return self.hasPathSum(root.left, sum) or self.hasPathSum(root.right, sum)
 ```
 
 ## 7. 统计路径和等于一个数的路径数量
@@ -180,7 +232,14 @@ Return 3. The paths that sum to 8 are:
 
 路径不一定以 root 开头，也不一定以 leaf 结尾，但是必须连续。
 
-```python
+```python  
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        def dfs(root, sumlist):
+            if root is None: return 0
+            sumlist = [num + root.val for num in sumlist] + [root.val]
+            return sumlist.count(sum) + dfs(root.left, sumlist) + dfs(root.right, sumlist)
+        return dfs(root,[])
 ```
 
 ## 8. 子树
@@ -222,7 +281,26 @@ Given tree t:
 Return false.
 ```
 
-```python
+```python  
+class Solution(object):
+    def isSubtree(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        if not s and not t:
+            return True
+        if not s or not t:
+            return False
+        return self.isSameTree(s, t) or self.isSubtree(s.left, t) or self.isSubtree(s.right, t)
+        
+    def isSameTree(self, s, t):
+        if not s and not t:
+            return True
+        if not s or not t:
+            return False
+        return s.val == t.val and self.isSameTree(s.left, t.left) and self.isSameTree(s.right, t.right)
 ```
 
 ## 9. 树的对称
@@ -239,7 +317,39 @@ Return false.
 3  4 4  3
 ```
 
-```python
+```python  
+class Solution:
+    def isSymmetric(self,root:TreeNode) -> bool:
+        bli = []
+        fli = []
+        if root == None:
+            return True
+        if root and root.left == None and root.right == None:
+            return True
+        
+        if root and root.left and root.right:
+            self.pre_order(root.left,bli)
+            self.post_order(root.right,fli)
+            fli.reverse()
+            if bli == fli:
+                return True
+            else:
+                return False
+    def pre_order(self,root,li):
+        if root:
+            li.append(root.val)
+            self.pre_order(root.left,li)
+            self.pre_order(root.right,li)
+        elif root == None:
+            li.append(None)
+    
+    def post_order(self,root,li):
+        if root:
+            self.post_order(root.left,li)
+            self.post_order(root.right,li)
+            li.append(root.val)
+        elif root == None:
+            li.append(None)
 ```
 
 ## 10. 最小路径
@@ -250,7 +360,15 @@ Return false.
 
 树的根节点到叶子节点的最小路径长度
 
-```python
+```python  
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root:return 0
+        def recursion(root1):
+            if not root1:return float("inf")
+            if not root1.left and not root1.right: return 1
+            return min(recursion(root1.left),recursion(root1.right)) + 1
+        return recursion(root)
 ```
 
 ## 11. 统计左叶子节点的和
@@ -269,7 +387,35 @@ Return false.
 There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
 ```
 
-```python
+```python   
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+  
+###方法一：前序遍历迭代解法
+        if not root:return 0
+        temp=root
+        stack=[temp]
+        res=0
+        while stack:
+            node=stack.pop()
+            if node:
+                if node.left and not node.left.left and not node.left.right:
+                    res+=node.left.val
+                stack.append(node.left)
+                stack.append(node.right)
+        return res
+
+###方法二：前序遍历递归解法：
+        self.res=0
+        def helper(root):
+            if not root:return 0
+            if root.left and not root.left.left and not root.left.right:
+                self.res+=root.left.val
+            helper(root.left)
+            helper(root.right)
+        temp=root
+        helper(temp)
+        return self.res
 ```
 
 ## 12. 相同节点值的最大路径长度
