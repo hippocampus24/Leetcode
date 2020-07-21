@@ -474,7 +474,8 @@ Output: 5
 
 一个节点要么具有 0 个或 2 个子节点，如果有子节点，那么根节点是最小的节点。
 
-```python
+```python  
+
 ```
 
 # 层次遍历
@@ -487,7 +488,27 @@ Output: 5
 
 [力扣](https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/description/)
 
-```python
+```python. 
+class Solution:
+    def averageOfLevels(self, root: TreeNode) -> List[float]:
+        if not root:return[]
+        temp=root
+        queue=[root]
+        res=[]
+        
+        while queue:
+            temp=[]
+            for _ in range(len(queue)):
+                node=queue.pop(0)
+                if node:
+                    temp.append(node.val)
+                    queue.append(node.left)
+                    queue.append(node.right)
+            l=len(temp)
+            if l>0:
+                aver=sum(temp)/l
+                res.append(aver)
+        return res
 ```
 
 ## 2. 得到左下角的节点
@@ -511,7 +532,20 @@ Output:
 7
 ```
 
-```python
+```python  
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        if not root:
+            return -1
+        queue = collections.deque()
+        queue.append(root)
+        while queue:
+            cur = queue.popleft()
+            if cur.right:
+                queue.append(cur.right)
+            if cur.left:
+                queue.append(cur.left)
+        return cur.val
 ```
 
 # 前中后序遍历
@@ -554,7 +588,8 @@ Output:
 
 [力扣](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/)
 
-```python  
+```python   
+
 ```
 
 ## 2. 非递归实现二叉树的后序遍历
@@ -566,6 +601,25 @@ Output:
 前序遍历为 root -> left -> right，后序遍历为 left -> right -> root。可以修改前序遍历成为 root -> right -> left，那么这个顺序就和后序遍历正好相反。
 
 ```python  
+class Solution(object):
+    def postorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if root is None:
+            return []
+
+        stack, output = [root, ], []
+        while stack:
+            root = stack.pop()
+            output.append(root.val)
+            if root.left is not None:
+                stack.append(root.left)
+            if root.right is not None:
+                stack.append(root.right)
+                
+        return output[::-1]
 ```
 
 ## 3. 非递归实现二叉树的中序遍历
@@ -575,6 +629,21 @@ Output:
 [力扣](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/description/)
 
 ```python  
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        WHITE, GRAY = 0, 1
+        res = []
+        stack = [(WHITE, root)]
+        while stack:
+            color, node = stack.pop()
+            if node is None: continue
+            if color == WHITE:
+                stack.append((WHITE, node.right))
+                stack.append((GRAY, node))
+                stack.append((WHITE, node.left))
+            else:
+                res.append(node.val)
+        return res
 ```
 
 # BST
