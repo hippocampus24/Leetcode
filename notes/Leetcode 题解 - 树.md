@@ -684,6 +684,20 @@ Output:
 题目描述：只保留值在 L \~ R 之间的节点
 
 ```python  
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        def trim(node):
+            if not node:
+                return None
+            elif node.val > R:
+                return trim(node.left)
+            elif node.val < L:
+                return trim(node.right)
+            else:
+                node.left = trim(node.left)
+                node.right = trim(node.right)
+                return node
+        return trim(root)
 ```
 
 ## 2. 寻找二叉查找树的第 k 个元素
@@ -692,15 +706,12 @@ Output:
 
 [力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/description/)
 
-
-中序遍历解法：
-
 ```python  
-```
-
-递归解法：
-
-```python  
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        def inorder(r):
+            return inorder(r.left) + [r.val] + inorder(r.right) if r else []
+        return inorder(root)[k - 1]
 ```
 
 ## 3. 把二叉查找树每个节点的值都加上比它大的节点的值
@@ -726,6 +737,18 @@ Output: The root of a Greater Tree like this:
 先遍历右子树。
 
 ```python  
+class Solution(object):
+    def __init__(self):
+        self.total = 0
+
+    def convertBST(self, root):
+        if root is not None:
+            self.convertBST(root.right)
+            self.total += root.val
+            root.val = self.total
+            self.convertBST(root.left)
+        return root
+
 ```
 
 ## 4. 二叉查找树的最近公共祖先
@@ -745,8 +768,16 @@ Output: The root of a Greater Tree like this:
 
 For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 ```
-
+解说:[youtube](https://www.youtube.com/watch?v=B48MMwTlRuA)
 ```python  
+class Solution:    
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p ,q)
+        elif p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p ,q)
+        else:
+            return root
 ```
 
 ## 5. 二叉树的最近公共祖先
@@ -768,15 +799,38 @@ For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another exa
 ```
 
 ```python  
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root or root == p or root == q: return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if not left: return right
+        if not right: return left
+        return root
 ```
 
 ## 6. 从有序数组中构造二叉查找树
 
 108\. Convert Sorted Array to Binary Search Tree (Easy)
 
-[力扣](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/)
+[力扣](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/)'
+
+解说:[youtube](https://www.youtube.com/watch?v=SS5Td7iz_0k)
 
 ```python  
+class Solution:
+    def sortedArrayToBST(self, nums:List[int]) -> TreeNode:
+        def make_tree(start_index,end_index):
+            if start_index > end_index:
+                return None
+            mid_index = (start_index + end_index)//2
+            this_tree_root = TreeNode(nums[mid_index])
+
+            this_tree_root.left = make_tree(start_index,mid_index-1)
+            this_tree_root.right = make_tree(mid_index+1,end_index)
+
+            return this_tree_root
+        return make_tree(0,len(nums)-1)
 ```
 
 ## 7. 根据有序链表构造平衡的二叉查找树
@@ -798,6 +852,25 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 ```
 
 ```python  
+class Solution:
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        def findmid(head, tail):
+            slow = head
+            fast = head
+            while fast != tail and fast.next!= tail :
+                slow = slow.next
+                fast = fast.next.next
+            return slow
+        
+        def helper(head, tail):
+            if  head == tail: return 
+            node = findmid(head, tail)
+            root = TreeNode(node.val)
+            root.left = helper(head, node)
+            root.right = helper(node.next, tail)
+            return root
+            
+        return helper(head, None)
 ```
 
 ## 8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值
@@ -820,11 +893,21 @@ Target = 9
 Output: True
 ```
 
-使用中序遍历得到有序数组之后，再利用双指针对数组进行查找。
-
-应该注意到，这一题不能用分别在左右子树两部分来处理这种思想，因为两个待求的节点可能分别在左右子树中。
-
-```python  
+```python 
+class Solution:
+    def findTarget(self, root: TreeNode, k: int) -> bool:
+        def searchTree(root):
+            if not root:return []
+            return searchTree(root.left)+[root.val]+searchTree(root.right)
+        
+        arr=searchTree(root)
+        l,r=0,len(arr)-1
+        while l<r:
+            s=arr[l]+arr[r]
+            if s==k:return True
+            elif s>k:r-=1
+            else:l+=1
+        return False
 ```
 
 ## 9. 在二叉查找树中查找两个节点之差的最小绝对值
