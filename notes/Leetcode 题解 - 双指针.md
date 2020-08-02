@@ -15,7 +15,7 @@
 
 167\. Two Sum II - Input array is sorted (Easy)
 
-[Leetcode](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/) / [力扣](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
+[力扣](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
 
 ```html
 Input: numbers={2, 7, 11, 15}, target=9
@@ -34,29 +34,27 @@ Output: index1=1, index2=2
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/437cb54c-5970-4ba9-b2ef-2541f7d6c81e.gif" width="200px"> </div><br>
 
-```java
-public int[] twoSum(int[] numbers, int target) {
-    if (numbers == null) return null;
-    int i = 0, j = numbers.length - 1;
-    while (i < j) {
-        int sum = numbers[i] + numbers[j];
-        if (sum == target) {
-            return new int[]{i + 1, j + 1};
-        } else if (sum < target) {
-            i++;
-        } else {
-            j--;
-        }
-    }
-    return null;
-}
+```python
+class Solution:
+    def twoSum(self,numbers:List[int],target:int) -> List[int]:
+        if not numbers : return [0,0]
+        i, j = 0, len(numbers) - 1
+        while i < j:
+            s = numbers[i] + numbers[j]
+            if s == target:
+                return [i+1, j+1]
+            elif s < target:
+                i += 1
+            else:
+                j -= 1
+        return [0,0]
 ```
 
 # 2. 两数平方和
 
 633\. Sum of Square Numbers (Easy)
 
-[Leetcode](https://leetcode.com/problems/sum-of-square-numbers/description/) / [力扣](https://leetcode-cn.com/problems/sum-of-square-numbers/description/)
+[力扣](https://leetcode-cn.com/problems/sum-of-square-numbers/description/)
 
 ```html
 Input: 5
@@ -66,37 +64,39 @@ Explanation: 1 * 1 + 2 * 2 = 5
 
 题目描述：判断一个非负整数是否为两个整数的平方和。
 
-可以看成是在元素为 0\~target 的有序数组中查找两个数，使得这两个数的平方和为 target，如果能找到，则返回 true，表示 target 是两个整数的平方和。
+给定一个非负整数 c ，你要判断是否存在两个整数 a 和 b，使得 a2 + b2 = c。
 
-本题和 167\. Two Sum II - Input array is sorted 类似，只有一个明显区别：一个是和为 target，一个是平方和为 target。本题同样可以使用双指针得到两个数，使其平方和为 target。
+示例1:
 
-本题的关键是右指针的初始化，实现剪枝，从而降低时间复杂度。设右指针为 x，左指针固定为 0，为了使 0<sup>2</sup> + x<sup>2</sup> 的值尽可能接近 target，我们可以将 x 取为 sqrt(target)。
+输入: 5
+输出: True
+解释: 1 * 1 + 2 * 2 = 5
+ 
 
-因为最多只需要遍历一次 0\~sqrt(target)，所以时间复杂度为 O(sqrt(target))。又因为只使用了两个额外的变量，因此空间复杂度为 O(1)。
+示例2:
 
-```java
- public boolean judgeSquareSum(int target) {
-     if (target < 0) return false;
-     int i = 0, j = (int) Math.sqrt(target);
-     while (i <= j) {
-         int powSum = i * i + j * j;
-         if (powSum == target) {
-             return true;
-         } else if (powSum > target) {
-             j--;
-         } else {
-             i++;
-         }
-     }
-     return false;
- }
+输入: 3
+输出: False
+
+```python
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        i,j=0,int(c**0.5)
+        while i <=j:
+            if i*i + j*j == c:
+                return True
+            elif i*i + j*j > c:
+                j-=1
+            elif i*i + j*j<c:
+                i+=1
+        return False
 ```
 
 # 3. 反转字符串中的元音字符
 
 345\. Reverse Vowels of a String (Easy)
 
-[Leetcode](https://leetcode.com/problems/reverse-vowels-of-a-string/description/) / [力扣](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/description/)
+[力扣](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/description/)
 
 ```html
 Given s = "leetcode", return "leotcede".
@@ -113,35 +113,41 @@ Given s = "leetcode", return "leotcede".
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ef25ff7c-0f63-420d-8b30-eafbeea35d11.gif" width="400px"> </div><br>
 
-```java
-private final static HashSet<Character> vowels = new HashSet<>(
-        Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+```python
+class Solution(object):
+    def reverseVowels(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        s = list(s)         #转换为列表
+        cs = {'A','E','I','O','U','a','e','i','o','u'}      #元音哈希表
+        l = 0           #左指针
+        r = len(s)-1    #右指针
 
-public String reverseVowels(String s) {
-    if (s == null) return null;
-    int i = 0, j = s.length() - 1;
-    char[] result = new char[s.length()];
-    while (i <= j) {
-        char ci = s.charAt(i);
-        char cj = s.charAt(j);
-        if (!vowels.contains(ci)) {
-            result[i++] = ci;
-        } else if (!vowels.contains(cj)) {
-            result[j--] = cj;
-        } else {
-            result[i++] = cj;
-            result[j--] = ci;
-        }
-    }
-    return new String(result);
-}
+        while l<r:
+            if s[l] in cs and s[r] in cs:    #都是原音则互换，移动两边指针
+                temp = s[r]
+                s[r] = s[l]
+                s[l] = temp
+                r = r-1
+                l = l+1
+            elif s[l] in cs and s[r] not in cs:  #有一个不是元音则移动一边指针
+                r = r-1
+            elif s[l] not in cs and s[r] in cs:  #有一个不是元音则移动一边指针
+                l = l+1
+            else:                               #都不是原音则互换，移动两边指针
+                l = l+1
+                r = r-1
+        return ''.join(s)                      #将列表转换为字符串
+    
 ```
 
 # 4. 回文字符串
 
 680\. Valid Palindrome II (Easy)
 
-[Leetcode](https://leetcode.com/problems/valid-palindrome-ii/description/) / [力扣](https://leetcode-cn.com/problems/valid-palindrome-ii/description/)
+[力扣](https://leetcode-cn.com/problems/valid-palindrome-ii/description/)
 
 ```html
 Input: "abca"
@@ -165,31 +171,29 @@ Explanation: You could delete the character 'c'.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/db5f30a7-8bfa-4ecc-ab5d-747c77818964.gif" width="300px"> </div><br>
 
-```java
-public boolean validPalindrome(String s) {
-    for (int i = 0, j = s.length() - 1; i < j; i++, j--) {
-        if (s.charAt(i) != s.charAt(j)) {
-            return isPalindrome(s, i, j - 1) || isPalindrome(s, i + 1, j);
-        }
-    }
-    return true;
-}
-
-private boolean isPalindrome(String s, int i, int j) {
-    while (i < j) {
-        if (s.charAt(i++) != s.charAt(j--)) {
-            return false;
-        }
-    }
-    return true;
-}
+```python
+class Solution(object):
+    def validPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        isPalindrome = lambda s: s == s[::-1]
+        strPart = lambda s, x: s[:x] + s[x + 1:]
+        left = 0
+        right = len(s) - 1
+        while left < right:
+            if s[left] != s[right]:
+                return isPalindrome(strPart(s, left)) or isPalindrome(strPart(s, right))
+            left += 1
+            right -= 1
+        return True
 ```
 
 # 5. 归并两个有序数组
 
 88\. Merge Sorted Array (Easy)
-
-[Leetcode](https://leetcode.com/problems/merge-sorted-array/description/) / [力扣](https://leetcode-cn.com/problems/merge-sorted-array/description/)
+[力扣](https://leetcode-cn.com/problems/merge-sorted-array/description/)
 
 ```html
 Input:
@@ -203,54 +207,70 @@ Output: [1,2,2,3,5,6]
 
 需要从尾开始遍历，否则在 nums1 上归并得到的值会覆盖还未进行归并比较的值。
 
-```java
-public void merge(int[] nums1, int m, int[] nums2, int n) {
-    int index1 = m - 1, index2 = n - 1;
-    int indexMerge = m + n - 1;
-    while (index1 >= 0 || index2 >= 0) {
-        if (index1 < 0) {
-            nums1[indexMerge--] = nums2[index2--];
-        } else if (index2 < 0) {
-            nums1[indexMerge--] = nums1[index1--];
-        } else if (nums1[index1] > nums2[index2]) {
-            nums1[indexMerge--] = nums1[index1--];
-        } else {
-            nums1[indexMerge--] = nums2[index2--];
-        }
-    }
-}
+设a为位置变量。
+本题难点在于边界处理：
+(1)m=0和n=0的情况要独立讨论；
+(2)确定nums1的元素是否都进行过对比。
+
+```python
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        if m == 0:
+            nums1[:] = nums2[:]
+        elif n == 0:
+            nums1 = nums1
+        else:
+            a = 0
+            while len(nums2) > 0:
+                if nums1[a] <= nums2[0]: 
+                    if a < m+n-len(nums2):
+                        a += 1
+                    else:
+                        nums1[m+n-len(nums2):] = nums2[:]
+                        break                    
+                else:
+                    n2 = nums2.pop(0)
+                    nums1[a+1:m+n] = nums1[a:m+n-1]
+                    nums1[a] = n2   
 ```
 
 # 6. 判断链表是否存在环
 
 141\. Linked List Cycle (Easy)
 
-[Leetcode](https://leetcode.com/problems/linked-list-cycle/description/) / [力扣](https://leetcode-cn.com/problems/linked-list-cycle/description/)
+[力扣](https://leetcode-cn.com/problems/linked-list-cycle/description/)
 
 使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。
+理解：
+思路：定义一个快指针和慢指针,每次快指针走2步，慢指针走1步，判断快指针是否与慢指针重逢
+时间复杂度O(n+k)：
+情况一：链表部分成环O(n)；
+部分成环时，快指针先于慢指针进入环，慢指针进环时间O(n)；当快慢指针都进入环，假设环节点数量为K,当快慢指针第一次相遇时，快指针至少已经在环内已经比慢指针多走一圈(多走的这一圈是当慢指针进入后开始算的)，时间O(k)； 综上，时间复杂度O(k+n)，即为O(n)
 
-```java
-public boolean hasCycle(ListNode head) {
-    if (head == null) {
-        return false;
-    }
-    ListNode l1 = head, l2 = head.next;
-    while (l1 != null && l2 != null && l2.next != null) {
-        if (l1 == l2) {
-            return true;
-        }
-        l1 = l1.next;
-        l2 = l2.next.next;
-    }
-    return false;
-}
+```python
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        slow = fast = head
+        # if not head：  # 没必要这样写可以加入while循环判断更简洁
+        #     return False
+
+        while fast and fast.next:  # 防止head为空和出现空指针的next的情况
+            slow = slow.next
+            fast = fast.next.next
+            if slow is fast:
+                return True
+
+        return False
 ```
 
 # 7. 最长子序列
 
 524\. Longest Word in Dictionary through Deleting (Medium)
 
-[Leetcode](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/) / [力扣](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
+[力扣](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
 
 ```
 Input:
@@ -264,30 +284,7 @@ Output:
 
 通过删除字符串 s 中的一个字符能得到字符串 t，可以认为 t 是 s 的子序列，我们可以使用双指针来判断一个字符串是否为另一个字符串的子序列。
 
-```java
-public String findLongestWord(String s, List<String> d) {
-    String longestWord = "";
-    for (String target : d) {
-        int l1 = longestWord.length(), l2 = target.length();
-        if (l1 > l2 || (l1 == l2 && longestWord.compareTo(target) < 0)) {
-            continue;
-        }
-        if (isSubstr(s, target)) {
-            longestWord = target;
-        }
-    }
-    return longestWord;
-}
+```python
 
-private boolean isSubstr(String s, String target) {
-    int i = 0, j = 0;
-    while (i < s.length() && j < target.length()) {
-        if (s.charAt(i) == target.charAt(j)) {
-            j++;
-        }
-        i++;
-    }
-    return j == target.length();
-}
 ```
 
