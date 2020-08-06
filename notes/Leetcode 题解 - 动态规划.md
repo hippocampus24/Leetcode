@@ -65,26 +65,14 @@
 
 考虑到 dp[i] 只与 dp[i - 1] 和 dp[i - 2] 有关，因此可以只用两个变量来存储 dp[i - 1] 和 dp[i - 2]，使得原来的 O(N) 空间复杂度优化为 O(1) 复杂度。
 
-```java
-public int climbStairs(int n) {
-    if (n <= 2) {
-        return n;
-    }
-    int pre2 = 1, pre1 = 2;
-    for (int i = 2; i < n; i++) {
-        int cur = pre1 + pre2;
-        pre2 = pre1;
-        pre1 = cur;
-    }
-    return pre1;
-}
+```python
 ```
 
 ## 2. 强盗抢劫
 
 198\. House Robber (Easy)
 
-[Leetcode](https://leetcode.com/problems/house-robber/description/) / [力扣](https://leetcode-cn.com/problems/house-robber/description/)
+[力扣](https://leetcode-cn.com/problems/house-robber/description/)
 
 题目描述：抢劫一排住户，但是不能抢邻近的住户，求最大抢劫量。
 
@@ -96,45 +84,16 @@ public int climbStairs(int n) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2de794ca-aa7b-48f3-a556-a0e2708cb976.jpg" width="350px"> </div><br>
 
-```java
-public int rob(int[] nums) {
-    int pre2 = 0, pre1 = 0;
-    for (int i = 0; i < nums.length; i++) {
-        int cur = Math.max(pre2 + nums[i], pre1);
-        pre2 = pre1;
-        pre1 = cur;
-    }
-    return pre1;
-}
+```python
 ```
 
 ## 3. 强盗在环形街区抢劫
 
 213\. House Robber II (Medium)
 
-[Leetcode](https://leetcode.com/problems/house-robber-ii/description/) / [力扣](https://leetcode-cn.com/problems/house-robber-ii/description/)
+[力扣](https://leetcode-cn.com/problems/house-robber-ii/description/)
 
-```java
-public int rob(int[] nums) {
-    if (nums == null || nums.length == 0) {
-        return 0;
-    }
-    int n = nums.length;
-    if (n == 1) {
-        return nums[0];
-    }
-    return Math.max(rob(nums, 0, n - 2), rob(nums, 1, n - 1));
-}
-
-private int rob(int[] nums, int first, int last) {
-    int pre2 = 0, pre1 = 0;
-    for (int i = first; i <= last; i++) {
-        int cur = Math.max(pre1, pre2 + nums[i]);
-        pre2 = pre1;
-        pre1 = cur;
-    }
-    return pre1;
-}
+```python
 ```
 
 ## 4. 信件错排
@@ -170,7 +129,7 @@ private int rob(int[] nums, int first, int last) {
 
 64\. Minimum Path Sum (Medium)
 
-[Leetcode](https://leetcode.com/problems/minimum-path-sum/description/) / [力扣](https://leetcode-cn.com/problems/minimum-path-sum/description/)
+[力扣](https://leetcode-cn.com/problems/minimum-path-sum/description/)
 
 ```html
 [[1,3,1],
@@ -181,64 +140,28 @@ Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes
 
 题目描述：求从矩阵的左上角到右下角的最小路径和，每次只能向右和向下移动。
 
-```java
-public int minPathSum(int[][] grid) {
-    if (grid.length == 0 || grid[0].length == 0) {
-        return 0;
-    }
-    int m = grid.length, n = grid[0].length;
-    int[] dp = new int[n];
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (j == 0) {
-                dp[j] = dp[j];        // 只能从上侧走到该位置
-            } else if (i == 0) {
-                dp[j] = dp[j - 1];    // 只能从左侧走到该位置
-            } else {
-                dp[j] = Math.min(dp[j - 1], dp[j]);
-            }
-            dp[j] += grid[i][j];
-        }
-    }
-    return dp[n - 1];
-}
+```python
+
 ```
 
 ## 2. 矩阵的总路径数
 
 62\. Unique Paths (Medium)
 
-[Leetcode](https://leetcode.com/problems/unique-paths/description/) / [力扣](https://leetcode-cn.com/problems/unique-paths/description/)
+[力扣](https://leetcode-cn.com/problems/unique-paths/description/)
 
 题目描述：统计从矩阵左上角到右下角的路径总数，每次只能向右或者向下移动。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/dc82f0f3-c1d4-4ac8-90ac-d5b32a9bd75a.jpg" width=""> </div><br>
 
-```java
-public int uniquePaths(int m, int n) {
-    int[] dp = new int[n];
-    Arrays.fill(dp, 1);
-    for (int i = 1; i < m; i++) {
-        for (int j = 1; j < n; j++) {
-            dp[j] = dp[j] + dp[j - 1];
-        }
-    }
-    return dp[n - 1];
-}
+```python
+
 ```
 
 也可以直接用数学公式求解，这是一个组合问题。机器人总共移动的次数 S=m+n-2，向下移动的次数 D=m-1，那么问题可以看成从 S 中取出 D 个位置的组合数量，这个问题的解为 C(S, D)。
 
-```java
-public int uniquePaths(int m, int n) {
-    int S = m + n - 2;  // 总共的移动次数
-    int D = m - 1;      // 向下的移动次数
-    long ret = 1;
-    for (int i = 1; i <= D; i++) {
-        ret = ret * (S - D + i) / i;
-    }
-    return (int) ret;
-}
+```python
+
 ```
 
 # 数组区间
@@ -247,7 +170,7 @@ public int uniquePaths(int m, int n) {
 
 303\. Range Sum Query - Immutable (Easy)
 
-[Leetcode](https://leetcode.com/problems/range-sum-query-immutable/description/) / [力扣](https://leetcode-cn.com/problems/range-sum-query-immutable/description/)
+[力扣](https://leetcode-cn.com/problems/range-sum-query-immutable/description/)
 
 ```html
 Given nums = [-2, 0, 3, -5, 2, -1]
@@ -259,29 +182,15 @@ sumRange(0, 5) -> -3
 
 求区间 i \~ j 的和，可以转换为 sum[j + 1] - sum[i]，其中 sum[i] 为 0 \~ i - 1 的和。
 
-```java
-class NumArray {
+```python
 
-    private int[] sums;
-
-    public NumArray(int[] nums) {
-        sums = new int[nums.length + 1];
-        for (int i = 1; i <= nums.length; i++) {
-            sums[i] = sums[i - 1] + nums[i - 1];
-        }
-    }
-
-    public int sumRange(int i, int j) {
-        return sums[j + 1] - sums[i];
-    }
-}
 ```
 
 ## 2. 数组中等差递增子区间的个数
 
 413\. Arithmetic Slices (Medium)
 
-[Leetcode](https://leetcode.com/problems/arithmetic-slices/description/) / [力扣](https://leetcode-cn.com/problems/arithmetic-slices/description/)
+[力扣](https://leetcode-cn.com/problems/arithmetic-slices/description/)
 
 ```html
 A = [0, 1, 2, 3, 4]
@@ -316,24 +225,7 @@ dp[4] = dp[3] + 1 = 3
 
 因为递增子区间不一定以最后一个元素为结尾，可以是任意一个元素结尾，因此需要返回 dp 数组累加的结果。
 
-```java
-public int numberOfArithmeticSlices(int[] A) {
-    if (A == null || A.length == 0) {
-        return 0;
-    }
-    int n = A.length;
-    int[] dp = new int[n];
-    for (int i = 2; i < n; i++) {
-        if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
-            dp[i] = dp[i - 1] + 1;
-        }
-    }
-    int total = 0;
-    for (int cnt : dp) {
-        total += cnt;
-    }
-    return total;
-}
+```python
 ```
 
 # 分割整数
@@ -342,93 +234,35 @@ public int numberOfArithmeticSlices(int[] A) {
 
 343\. Integer Break (Medim)
 
-[Leetcode](https://leetcode.com/problems/integer-break/description/) / [力扣](https://leetcode-cn.com/problems/integer-break/description/)
+[力扣](https://leetcode-cn.com/problems/integer-break/description/)
 
 题目描述：For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
 
-```java
-public int integerBreak(int n) {
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    for (int i = 2; i <= n; i++) {
-        for (int j = 1; j <= i - 1; j++) {
-            dp[i] = Math.max(dp[i], Math.max(j * dp[i - j], j * (i - j)));
-        }
-    }
-    return dp[n];
-}
+```python
+
 ```
 
 ## 2. 按平方数来分割整数
 
 279\. Perfect Squares(Medium)
 
-[Leetcode](https://leetcode.com/problems/perfect-squares/description/) / [力扣](https://leetcode-cn.com/problems/perfect-squares/description/)
+[力扣](https://leetcode-cn.com/problems/perfect-squares/description/)
 
 题目描述：For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
 
-```java
-public int numSquares(int n) {
-    List<Integer> squareList = generateSquareList(n);
-    int[] dp = new int[n + 1];
-    for (int i = 1; i <= n; i++) {
-        int min = Integer.MAX_VALUE;
-        for (int square : squareList) {
-            if (square > i) {
-                break;
-            }
-            min = Math.min(min, dp[i - square] + 1);
-        }
-        dp[i] = min;
-    }
-    return dp[n];
-}
-
-private List<Integer> generateSquareList(int n) {
-    List<Integer> squareList = new ArrayList<>();
-    int diff = 3;
-    int square = 1;
-    while (square <= n) {
-        squareList.add(square);
-        square += diff;
-        diff += 2;
-    }
-    return squareList;
-}
+```python
 ```
 
 ## 3. 分割整数构成字母字符串
 
 91\. Decode Ways (Medium)
 
-[Leetcode](https://leetcode.com/problems/decode-ways/description/) / [力扣](https://leetcode-cn.com/problems/decode-ways/description/)
+[力扣](https://leetcode-cn.com/problems/decode-ways/description/)
 
 题目描述：Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 
-```java
-public int numDecodings(String s) {
-    if (s == null || s.length() == 0) {
-        return 0;
-    }
-    int n = s.length();
-    int[] dp = new int[n + 1];
-    dp[0] = 1;
-    dp[1] = s.charAt(0) == '0' ? 0 : 1;
-    for (int i = 2; i <= n; i++) {
-        int one = Integer.valueOf(s.substring(i - 1, i));
-        if (one != 0) {
-            dp[i] += dp[i - 1];
-        }
-        if (s.charAt(i - 2) == '0') {
-            continue;
-        }
-        int two = Integer.valueOf(s.substring(i - 2, i));
-        if (two <= 26) {
-            dp[i] += dp[i - 2];
-        }
-    }
-    return dp[n];
-}
+```python
+
 ```
 
 # 最长递增子序列
@@ -451,33 +285,15 @@ public int numDecodings(String s) {
 
 300\. Longest Increasing Subsequence (Medium)
 
-[Leetcode](https://leetcode.com/problems/longest-increasing-subsequence/description/) / [力扣](https://leetcode-cn.com/problems/longest-increasing-subsequence/description/)
+[力扣](https://leetcode-cn.com/problems/longest-increasing-subsequence/description/)
 
-```java
-public int lengthOfLIS(int[] nums) {
-    int n = nums.length;
-    int[] dp = new int[n];
-    for (int i = 0; i < n; i++) {
-        int max = 1;
-        for (int j = 0; j < i; j++) {
-            if (nums[i] > nums[j]) {
-                max = Math.max(max, dp[j] + 1);
-            }
-        }
-        dp[i] = max;
-    }
-    return Arrays.stream(dp).max().orElse(0);
-}
+```python
 ```
 
 使用 Stream 求最大值会导致运行时间过长，可以改成以下形式：
 
-```java
-int ret = 0;
-for (int i = 0; i < n; i++) {
-    ret = Math.max(ret, dp[i]);
-}
-return ret;
+```python
+
 ```
 
 以上解法的时间复杂度为 O(N<sup>2</sup>)，可以使用二分查找将时间复杂度降低为 O(NlogN)。
@@ -500,42 +316,14 @@ tails      len      num
 
 可以看出 tails 数组保持有序，因此在查找 S<sub>i</sub> 位于 tails 数组的位置时就可以使用二分查找。
 
-```java
-public int lengthOfLIS(int[] nums) {
-    int n = nums.length;
-    int[] tails = new int[n];
-    int len = 0;
-    for (int num : nums) {
-        int index = binarySearch(tails, len, num);
-        tails[index] = num;
-        if (index == len) {
-            len++;
-        }
-    }
-    return len;
-}
-
-private int binarySearch(int[] tails, int len, int key) {
-    int l = 0, h = len;
-    while (l < h) {
-        int mid = l + (h - l) / 2;
-        if (tails[mid] == key) {
-            return mid;
-        } else if (tails[mid] > key) {
-            h = mid;
-        } else {
-            l = mid + 1;
-        }
-    }
-    return l;
-}
+```python
 ```
 
 ## 2. 一组整数对能够构成的最长链
 
 646\. Maximum Length of Pair Chain (Medium)
 
-[Leetcode](https://leetcode.com/problems/maximum-length-of-pair-chain/description/) / [力扣](https://leetcode-cn.com/problems/maximum-length-of-pair-chain/description/)
+[力扣](https://leetcode-cn.com/problems/maximum-length-of-pair-chain/description/)
 
 ```html
 Input: [[1,2], [2,3], [3,4]]
@@ -545,31 +333,15 @@ Explanation: The longest chain is [1,2] -> [3,4]
 
 题目描述：对于 (a, b) 和 (c, d) ，如果 b < c，则它们可以构成一条链。
 
-```java
-public int findLongestChain(int[][] pairs) {
-    if (pairs == null || pairs.length == 0) {
-        return 0;
-    }
-    Arrays.sort(pairs, (a, b) -> (a[0] - b[0]));
-    int n = pairs.length;
-    int[] dp = new int[n];
-    Arrays.fill(dp, 1);
-    for (int i = 1; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            if (pairs[j][1] < pairs[i][0]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1);
-            }
-        }
-    }
-    return Arrays.stream(dp).max().orElse(0);
-}
+```python
+
 ```
 
 ## 3. 最长摆动子序列
 
 376\. Wiggle Subsequence (Medium)
 
-[Leetcode](https://leetcode.com/problems/wiggle-subsequence/description/) / [力扣](https://leetcode-cn.com/problems/wiggle-subsequence/description/)
+[力扣](https://leetcode-cn.com/problems/wiggle-subsequence/description/)
 
 ```html
 Input: [1,7,4,9,2,5]
@@ -586,21 +358,8 @@ Output: 2
 
 要求：使用 O(N) 时间复杂度求解。
 
-```java
-public int wiggleMaxLength(int[] nums) {
-    if (nums == null || nums.length == 0) {
-        return 0;
-    }
-    int up = 1, down = 1;
-    for (int i = 1; i < nums.length; i++) {
-        if (nums[i] > nums[i - 1]) {
-            up = down + 1;
-        } else if (nums[i] < nums[i - 1]) {
-            down = up + 1;
-        }
-    }
-    return Math.max(up, down);
-}
+```python
+
 ```
 
 # 最长公共子序列
@@ -630,23 +389,10 @@ public int wiggleMaxLength(int[] nums) {
 
 1143\. Longest Common Subsequence
 
-[Leetcode](https://leetcode.com/problems/longest-common-subsequence/) / [力扣](https://leetcode-cn.com/problems/longest-common-subsequence/)
+[力扣](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
-```java
-    public int longestCommonSubsequence(String text1, String text2) {
-        int n1 = text1.length(), n2 = text2.length();
-        int[][] dp = new int[n1 + 1][n2 + 1];
-        for (int i = 1; i <= n1; i++) {
-            for (int j = 1; j <= n2; j++) {
-                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                } else {
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-                }
-            }
-        }
-        return dp[n1][n2];
-    }
+```python
+
 ```
 
 # 0-1 背包
@@ -664,25 +410,8 @@ public int wiggleMaxLength(int[] nums) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/8cb2be66-3d47-41ba-b55b-319fc68940d4.png" width="400px"> </div><br>
 
-```java
-// W 为背包总体积
-// N 为物品数量
-// weights 数组存储 N 个物品的重量
-// values 数组存储 N 个物品的价值
-public int knapsack(int W, int N, int[] weights, int[] values) {
-    int[][] dp = new int[N + 1][W + 1];
-    for (int i = 1; i <= N; i++) {
-        int w = weights[i - 1], v = values[i - 1];
-        for (int j = 1; j <= W; j++) {
-            if (j >= w) {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - w] + v);
-            } else {
-                dp[i][j] = dp[i - 1][j];
-            }
-        }
-    }
-    return dp[N][W];
-}
+```python
+
 ```
 
 **空间优化**  
@@ -695,19 +424,8 @@ public int knapsack(int W, int N, int[] weights, int[] values) {
 
 因为 dp[j-w] 表示 dp[i-1][j-w]，因此不能先求 dp[i][j-w]，防止将 dp[i-1][j-w] 覆盖。也就是说要先计算 dp[i][j] 再计算 dp[i][j-w]，在程序实现时需要按倒序来循环求解。
 
-```java
-public int knapsack(int W, int N, int[] weights, int[] values) {
-    int[] dp = new int[W + 1];
-    for (int i = 1; i <= N; i++) {
-        int w = weights[i - 1], v = values[i - 1];
-        for (int j = W; j >= 1; j--) {
-            if (j >= w) {
-                dp[j] = Math.max(dp[j], dp[j - w] + v);
-            }
-        }
-    }
-    return dp[W];
-}
+```python
+
 ```
 
 **无法使用贪心算法的解释**  
@@ -734,7 +452,7 @@ public int knapsack(int W, int N, int[] weights, int[] values) {
 
 416\. Partition Equal Subset Sum (Medium)
 
-[Leetcode](https://leetcode.com/problems/partition-equal-subset-sum/description/) / [力扣](https://leetcode-cn.com/problems/partition-equal-subset-sum/description/)
+[力扣](https://leetcode-cn.com/problems/partition-equal-subset-sum/description/)
 
 ```html
 Input: [1, 5, 11, 5]
@@ -746,37 +464,14 @@ Explanation: The array can be partitioned as [1, 5, 5] and [11].
 
 可以看成一个背包大小为 sum/2 的 0-1 背包问题。
 
-```java
-public boolean canPartition(int[] nums) {
-    int sum = computeArraySum(nums);
-    if (sum % 2 != 0) {
-        return false;
-    }
-    int W = sum / 2;
-    boolean[] dp = new boolean[W + 1];
-    dp[0] = true;
-    for (int num : nums) {                 // 0-1 背包一个物品只能用一次
-        for (int i = W; i >= num; i--) {   // 从后往前，先计算 dp[i] 再计算 dp[i-num]
-            dp[i] = dp[i] || dp[i - num];
-        }
-    }
-    return dp[W];
-}
-
-private int computeArraySum(int[] nums) {
-    int sum = 0;
-    for (int num : nums) {
-        sum += num;
-    }
-    return sum;
-}
+```python
 ```
 
 ## 2. 改变一组数的正负号使得它们的和为一给定数
 
 494\. Target Sum (Medium)
 
-[Leetcode](https://leetcode.com/problems/target-sum/description/) / [力扣](https://leetcode-cn.com/problems/target-sum/description/)
+[力扣](https://leetcode-cn.com/problems/target-sum/description/)
 
 ```html
 Input: nums is [1, 1, 1, 1, 1], S is 3.
@@ -804,53 +499,21 @@ sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
 
 因此只要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。
 
-```java
-public int findTargetSumWays(int[] nums, int S) {
-    int sum = computeArraySum(nums);
-    if (sum < S || (sum + S) % 2 == 1) {
-        return 0;
-    }
-    int W = (sum + S) / 2;
-    int[] dp = new int[W + 1];
-    dp[0] = 1;
-    for (int num : nums) {
-        for (int i = W; i >= num; i--) {
-            dp[i] = dp[i] + dp[i - num];
-        }
-    }
-    return dp[W];
-}
+```python
 
-private int computeArraySum(int[] nums) {
-    int sum = 0;
-    for (int num : nums) {
-        sum += num;
-    }
-    return sum;
-}
 ```
 
 DFS 解法：
 
-```java
-public int findTargetSumWays(int[] nums, int S) {
-    return findTargetSumWays(nums, 0, S);
-}
+```python
 
-private int findTargetSumWays(int[] nums, int start, int S) {
-    if (start == nums.length) {
-        return S == 0 ? 1 : 0;
-    }
-    return findTargetSumWays(nums, start + 1, S + nums[start])
-            + findTargetSumWays(nums, start + 1, S - nums[start]);
-}
 ```
 
 ## 3. 01 字符构成最多的字符串
 
 474\. Ones and Zeroes (Medium)
 
-[Leetcode](https://leetcode.com/problems/ones-and-zeroes/description/) / [力扣](https://leetcode-cn.com/problems/ones-and-zeroes/description/)
+[力扣](https://leetcode-cn.com/problems/ones-and-zeroes/description/)
 
 ```html
 Input: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
@@ -861,36 +524,14 @@ Explanation: There are totally 4 strings can be formed by the using of 5 0s and 
 
 这是一个多维费用的 0-1 背包问题，有两个背包大小，0 的数量和 1 的数量。
 
-```java
-public int findMaxForm(String[] strs, int m, int n) {
-    if (strs == null || strs.length == 0) {
-        return 0;
-    }
-    int[][] dp = new int[m + 1][n + 1];
-    for (String s : strs) {    // 每个字符串只能用一次
-        int ones = 0, zeros = 0;
-        for (char c : s.toCharArray()) {
-            if (c == '0') {
-                zeros++;
-            } else {
-                ones++;
-            }
-        }
-        for (int i = m; i >= zeros; i--) {
-            for (int j = n; j >= ones; j--) {
-                dp[i][j] = Math.max(dp[i][j], dp[i - zeros][j - ones] + 1);
-            }
-        }
-    }
-    return dp[m][n];
-}
+```python
 ```
 
 ## 4. 找零钱的最少硬币数
 
 322\. Coin Change (Medium)
 
-[Leetcode](https://leetcode.com/problems/coin-change/description/) / [力扣](https://leetcode-cn.com/problems/coin-change/description/)
+[力扣](https://leetcode-cn.com/problems/coin-change/description/)
 
 ```html
 Example 1:
@@ -910,30 +551,15 @@ return -1.
 
 因为硬币可以重复使用，因此这是一个完全背包问题。完全背包只需要将 0-1 背包的逆序遍历 dp 数组改为正序遍历即可。
 
-```java
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) { //将逆序遍历改为正序遍历
-            if (i == coin) {
-                dp[i] = 1;
-            } else if (dp[i] == 0 && dp[i - coin] != 0) {
-                dp[i] = dp[i - coin] + 1;
+```python
 
-            } else if (dp[i - coin] != 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-    return dp[amount] == 0 ? -1 : dp[amount];
-}
 ```
 
 ## 5. 找零钱的硬币数组合
 
 518\. Coin Change 2 (Medium)
 
-[Leetcode](https://leetcode.com/problems/coin-change-2/description/) / [力扣](https://leetcode-cn.com/problems/coin-change-2/description/)
+[力扣](https://leetcode-cn.com/problems/coin-change-2/description/)
 
 ```text-html-basic
 Input: amount = 5, coins = [1, 2, 5]
@@ -947,27 +573,15 @@ Explanation: there are four ways to make up the amount:
 
 完全背包问题，使用 dp 记录可达成目标的组合数目。
 
-```java
-public int change(int amount, int[] coins) {
-    if (coins == null) {
-        return 0;
-    }
-    int[] dp = new int[amount + 1];
-    dp[0] = 1;
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            dp[i] += dp[i - coin];
-        }
-    }
-    return dp[amount];
-}
+```python
+
 ```
 
 ## 6. 字符串按单词列表分割
 
 139\. Word Break (Medium)
 
-[Leetcode](https://leetcode.com/problems/word-break/description/) / [力扣](https://leetcode-cn.com/problems/word-break/description/)
+[力扣](https://leetcode-cn.com/problems/word-break/description/)
 
 ```html
 s = "leetcode",
@@ -985,28 +599,15 @@ dict 中的单词没有使用次数的限制，因此这是一个完全背包问
 
 求解顺序的完全背包问题时，对物品的迭代应该放在最里层，对背包的迭代放在外层，只有这样才能让物品按一定顺序放入背包中。
 
-```java
-public boolean wordBreak(String s, List<String> wordDict) {
-    int n = s.length();
-    boolean[] dp = new boolean[n + 1];
-    dp[0] = true;
-    for (int i = 1; i <= n; i++) {
-        for (String word : wordDict) {   // 对物品的迭代应该放在最里层
-            int len = word.length();
-            if (len <= i && word.equals(s.substring(i - len, i))) {
-                dp[i] = dp[i] || dp[i - len];
-            }
-        }
-    }
-    return dp[n];
-}
+```python
+
 ```
 
 ## 7. 组合总和
 
 377\. Combination Sum IV (Medium)
 
-[Leetcode](https://leetcode.com/problems/combination-sum-iv/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum-iv/description/)
+[力扣](https://leetcode-cn.com/problems/combination-sum-iv/description/)
 
 ```html
 nums = [1, 2, 3]
@@ -1028,21 +629,8 @@ Therefore the output is 7.
 
 涉及顺序的完全背包。
 
-```java
-public int combinationSum4(int[] nums, int target) {
-    if (nums == null || nums.length == 0) {
-        return 0;
-    }
-    int[] maximum = new int[target + 1];
-    maximum[0] = 1;
-    Arrays.sort(nums);
-    for (int i = 1; i <= target; i++) {
-        for (int j = 0; j < nums.length && nums[j] <= i; j++) {
-            maximum[i] += maximum[i - nums[j]];
-        }
-    }
-    return maximum[target];
-}
+```python
+
 ```
 
 # 股票交易
@@ -1057,33 +645,14 @@ public int combinationSum4(int[] nums, int target) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ffd96b99-8009-487c-8e98-11c9d44ef14f.png" width="300px"> </div><br>
 
-```java
-public int maxProfit(int[] prices) {
-    if (prices == null || prices.length == 0) {
-        return 0;
-    }
-    int N = prices.length;
-    int[] buy = new int[N];
-    int[] s1 = new int[N];
-    int[] sell = new int[N];
-    int[] s2 = new int[N];
-    s1[0] = buy[0] = -prices[0];
-    sell[0] = s2[0] = 0;
-    for (int i = 1; i < N; i++) {
-        buy[i] = s2[i - 1] - prices[i];
-        s1[i] = Math.max(buy[i - 1], s1[i - 1]);
-        sell[i] = Math.max(buy[i - 1], s1[i - 1]) + prices[i];
-        s2[i] = Math.max(s2[i - 1], sell[i - 1]);
-    }
-    return Math.max(sell[N - 1], s2[N - 1]);
-}
+```python
 ```
 
 ## 2. 需要交易费用的股票交易
 
 714\. Best Time to Buy and Sell Stock with Transaction Fee (Medium)
 
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/)
+[力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/)
 
 ```html
 Input: prices = [1, 3, 2, 8, 4, 9], fee = 2
@@ -1100,23 +669,8 @@ The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/1e2c588c-72b7-445e-aacb-d55dc8a88c29.png" width="300px"> </div><br>
 
-```java
-public int maxProfit(int[] prices, int fee) {
-    int N = prices.length;
-    int[] buy = new int[N];
-    int[] s1 = new int[N];
-    int[] sell = new int[N];
-    int[] s2 = new int[N];
-    s1[0] = buy[0] = -prices[0];
-    sell[0] = s2[0] = 0;
-    for (int i = 1; i < N; i++) {
-        buy[i] = Math.max(sell[i - 1], s2[i - 1]) - prices[i];
-        s1[i] = Math.max(buy[i - 1], s1[i - 1]);
-        sell[i] = Math.max(buy[i - 1], s1[i - 1]) - fee + prices[i];
-        s2[i] = Math.max(s2[i - 1], sell[i - 1]);
-    }
-    return Math.max(sell[N - 1], s2[N - 1]);
-}
+```python
+
 ```
 
 
@@ -1126,56 +680,17 @@ public int maxProfit(int[] prices, int fee) {
 
 [Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/description/)
 
-```java
-public int maxProfit(int[] prices) {
-    int firstBuy = Integer.MIN_VALUE, firstSell = 0;
-    int secondBuy = Integer.MIN_VALUE, secondSell = 0;
-    for (int curPrice : prices) {
-        if (firstBuy < -curPrice) {
-            firstBuy = -curPrice;
-        }
-        if (firstSell < firstBuy + curPrice) {
-            firstSell = firstBuy + curPrice;
-        }
-        if (secondBuy < firstSell - curPrice) {
-            secondBuy = firstSell - curPrice;
-        }
-        if (secondSell < secondBuy + curPrice) {
-            secondSell = secondBuy + curPrice;
-        }
-    }
-    return secondSell;
-}
+```python
+
 ```
 
 ## 4. 只能进行 k 次的股票交易
 
 188\. Best Time to Buy and Sell Stock IV (Hard)
 
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
+[力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
 
-```java
-public int maxProfit(int k, int[] prices) {
-    int n = prices.length;
-    if (k >= n / 2) {   // 这种情况下该问题退化为普通的股票交易问题
-        int maxProfit = 0;
-        for (int i = 1; i < n; i++) {
-            if (prices[i] > prices[i - 1]) {
-                maxProfit += prices[i] - prices[i - 1];
-            }
-        }
-        return maxProfit;
-    }
-    int[][] maxProfit = new int[k + 1][n];
-    for (int i = 1; i <= k; i++) {
-        int localMax = maxProfit[i - 1][0] - prices[0];
-        for (int j = 1; j < n; j++) {
-            maxProfit[i][j] = Math.max(maxProfit[i][j - 1], prices[j] + localMax);
-            localMax = Math.max(localMax, maxProfit[i - 1][j] - prices[j]);
-        }
-    }
-    return maxProfit[k][n - 1];
-}
+```python
 ```
 
 # 字符串编辑
@@ -1184,7 +699,7 @@ public int maxProfit(int k, int[] prices) {
 
 583\. Delete Operation for Two Strings (Medium)
 
-[Leetcode](https://leetcode.com/problems/delete-operation-for-two-strings/description/) / [力扣](https://leetcode-cn.com/problems/delete-operation-for-two-strings/description/)
+[力扣](https://leetcode-cn.com/problems/delete-operation-for-two-strings/description/)
 
 ```html
 Input: "sea", "eat"
@@ -1194,28 +709,15 @@ Explanation: You need one step to make "sea" to "ea" and another step to make "e
 
 可以转换为求两个字符串的最长公共子序列问题。
 
-```java
-public int minDistance(String word1, String word2) {
-    int m = word1.length(), n = word2.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
-            }
-        }
-    }
-    return m + n - 2 * dp[m][n];
-}
+```python
+
 ```
 
 ## 2. 编辑距离
 
 72\. Edit Distance (Hard)
 
-[Leetcode](https://leetcode.com/problems/edit-distance/description/) / [力扣](https://leetcode-cn.com/problems/edit-distance/description/)
+[力扣](https://leetcode-cn.com/problems/edit-distance/description/)
 
 ```html
 Example 1:
@@ -1240,37 +742,15 @@ exection -> execution (insert 'u')
 
 题目描述：修改一个字符串成为另一个字符串，使得修改次数最少。一次修改操作包括：插入一个字符、删除一个字符、替换一个字符。
 
-```java
-public int minDistance(String word1, String word2) {
-    if (word1 == null || word2 == null) {
-        return 0;
-    }
-    int m = word1.length(), n = word2.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int i = 1; i <= m; i++) {
-        dp[i][0] = i;
-    }
-    for (int i = 1; i <= n; i++) {
-        dp[0][i] = i;
-    }
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1];
-            } else {
-                dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1;
-            }
-        }
-    }
-    return dp[m][n];
-}
+```python
+
 ```
 
 ## 3. 复制粘贴字符
 
 650\. 2 Keys Keyboard (Medium)
 
-[Leetcode](https://leetcode.com/problems/2-keys-keyboard/description/) / [力扣](https://leetcode-cn.com/problems/2-keys-keyboard/description/)
+[力扣](https://leetcode-cn.com/problems/2-keys-keyboard/description/)
 
 题目描述：最开始只有一个字符 A，问需要多少次操作能够得到 n 个字符 A，每次操作可以复制当前所有的字符，或者粘贴。
 
@@ -1284,29 +764,8 @@ In step 2, we use Paste operation to get 'AA'.
 In step 3, we use Paste operation to get 'AAA'.
 ```
 
-```java
-public int minSteps(int n) {
-    if (n == 1) return 0;
-    for (int i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i == 0) return i + minSteps(n / i);
-    }
-    return n;
-}
+```python
+
 ```
 
-```java
-public int minSteps(int n) {
-    int[] dp = new int[n + 1];
-    int h = (int) Math.sqrt(n);
-    for (int i = 2; i <= n; i++) {
-        dp[i] = i;
-        for (int j = 2; j <= h; j++) {
-            if (i % j == 0) {
-                dp[i] = dp[j] + dp[i / j];
-                break;
-            }
-        }
-    }
-    return dp[n];
-}
-```
+
