@@ -65,7 +65,13 @@
 
 考虑到 dp[i] 只与 dp[i - 1] 和 dp[i - 2] 有关，因此可以只用两个变量来存储 dp[i - 1] 和 dp[i - 2]，使得原来的 O(N) 空间复杂度优化为 O(1) 复杂度。
 
-```python
+```python  
+class Solution:
+    @functools.lru_cache(100)  # 缓存装饰器
+    def climbStairs(self, n: int) -> int:
+        if n == 1: return 1
+        if n == 2: return 2
+        return self.climbStairs(n-1) + self.climbStairs(n-2)
 ```
 
 ## 2. 强盗抢劫
@@ -84,7 +90,19 @@
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2de794ca-aa7b-48f3-a556-a0e2708cb976.jpg" width="350px"> </div><br>
 
-```python
+```python  
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 0:
+            return 0
+            
+        N = len(nums)
+        dp = [0] * (N+1)
+        dp[0] = 0
+        dp[1] = nums[0]
+        for k in range(2, N+1):
+            dp[k] = max(dp[k-1], nums[k-1] + dp[k-2])
+        return dp[N]
 ```
 
 ## 3. 强盗在环形街区抢劫
