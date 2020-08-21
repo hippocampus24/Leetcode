@@ -308,11 +308,7 @@ dp[4] = dp[3] + 1 = 3
 ```python
 ```
 
-使用 Stream 求最大值会导致运行时间过长，可以改成以下形式：
-
-```python
-
-```
+使
 
 以上解法的时间复杂度为 O(N<sup>2</sup>)，可以使用二分查找将时间复杂度降低为 O(NlogN)。
 
@@ -405,12 +401,27 @@ Output: 2
 
 ## 1. 最长公共子序列
 
-1143\. Longest Common Subsequence
+
+\. Longest Common Subsequence
 
 [力扣](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
 ```python
+class Solution:
+    def longestCommonSubsequence(self, A: str, B: str) -> int:
+        m, n = len(A), len(B)
+        ans = 0 #初始状态
+        dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if A[i - 1] == B[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                    ans = max(ans, dp[i][j])
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        return ans
 
+#时间和空间复杂度均为 O(n*m)
 ```
 
 # 0-1 背包
